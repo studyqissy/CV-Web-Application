@@ -23,9 +23,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
-            @page { margin: 15mm; }
+            /* 1. Eliminate default margins so layout takes full width */
+            @page { 
+                size: A4;
+                margin: 0mm; 
+            }
             .no-print { display: none !important; }
-            body { background: white !important; padding: 0 !important; }
+            
+            /* 2. Force background colors and dark sidebar to stay dark */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            body { 
+                background: white !important; 
+                padding: 0 !important; 
+            }
+
+            /* 3. Override Tailwind's responsive rule and force side-by-side columns */
+            .grid {
+                display: grid !important;
+                grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+            }
+
+            /* 4. Force sidebar to always span 4 columns and text body to span 8 columns */
+            .md\:col-span-4 {
+                grid-column: span 4 / span 4 !important;
+                min-height: 100vh !important; /* Forces sidebar to extend all the way down */
+            }
+            .md\:col-span-8 {
+                grid-column: span 8 / span 8 !important;
+            }
         }
     </style>
 </head>
